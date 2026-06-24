@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)file:///Users/angelicabueno/Downloads/index_2.html -->
+<html lang="pt-BR"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gerador de Conteúdo — Infraestrutura de TI</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --bg: #f4f5f7; --surface: #ffffff; --border: #e0e2e8;
+  --text: #1a1a22; --text-2: #52525e; --text-3: #9898a4;
+  --accent: #1a4fa0; --accent-light: #edf2fb; --accent-hover: #163f80;
+  --green: #0f6b3a; --green-light: #e6f4ed; --green-hover: #0a5530;
+  --warning-bg: #fefce8; --warning: #854d0e; --warning-border: #fde68a;
+  --error: #991b1b; --error-bg: #fef2f2; --error-border: #fca5a5;
+  --radius: 12px; --radius-sm: 7px;
+  --font: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --shadow: 0 1px 4px rgba(0,0,0,.07); --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+}
+body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+header {
+  background: var(--surface); border-bottom: 1px solid var(--border);
+  padding: 14px 24px; display: flex; align-items: center; gap: 12px;
+  position: sticky; top: 0; z-index: 100; box-shadow: var(--shadow);
+}
+.logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(135deg, var(--accent), #2d6fd4);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 15px; font-weight: 800; flex-shrink: 0;
+}
+header h1 { font-size: 15px; font-weight: 700; }
+header p  { font-size: 11px; color: var(--text-3); margin-top: 1px; }
+.header-spacer { flex: 1; }
+.header-tag {
+  font-size: 10px; font-weight: 600; letter-spacing: .05em;
+  background: var(--accent-light); color: var(--accent);
+  padding: 3px 9px; border-radius: 20px; text-transform: uppercase;
+}
+#tela-perfil {
+  min-height: calc(100vh - 67px);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center; padding: 40px 20px;
+}
+.perfil-titulo { text-align: center; margin-bottom: 10px; }
+.perfil-titulo h2 { font-size: 26px; font-weight: 700; }
+.perfil-titulo p  { font-size: 15px; color: var(--text-2); margin-top: 8px; max-width: 440px; line-height: 1.6; }
+.perfil-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 16px; margin-top: 32px; max-width: 760px; width: 100%;
+}
+@media (max-width: 640px) { .perfil-grid { grid-template-columns: 1fr; } }
+.perfil-card {
+  background: var(--surface); border: 2px solid var(--border);
+  border-radius: var(--radius); padding: 28px 22px; text-align: center;
+  cursor: pointer; transition: border-color .2s, box-shadow .2s, transform .15s;
+  box-shadow: var(--shadow);
+}
+.perfil-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); transform: translateY(-3px); }
+.perfil-card .icon { font-size: 36px; margin-bottom: 14px; display: block; }
+.perfil-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.perfil-card p  { font-size: 13px; color: var(--text-2); line-height: 1.55; }
+.perfil-card .tag {
+  display: inline-block; margin-top: 12px; font-size: 10px; font-weight: 600;
+  letter-spacing: .04em; background: var(--accent-light); color: var(--accent);
+  padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+}
+.perfil-card.empresa .tag { background: var(--green-light); color: var(--green); }
+.container { max-width: 740px; margin: 0 auto; padding: 28px 20px 80px; }
+.breadcrumb {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--text-3); margin-bottom: 20px;
+}
+.breadcrumb a { color: var(--accent); cursor: pointer; text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb span { color: var(--text-2); font-weight: 500; }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.card-title {
+  font-size: 12px; font-weight: 700; color: var(--text-2);
+  text-transform: uppercase; letter-spacing: .05em;
+  margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.termo-box {
+  background: var(--warning-bg); border: 1px solid var(--warning-border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 13px; color: var(--warning); line-height: 1.65; margin-bottom: 12px;
+}
+.aceite-row {
+  display: flex; align-items: flex-start; gap: 10px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 12px 14px; cursor: pointer;
+}
+.aceite-row input[type=checkbox] {
+  width: 16px; height: 16px; margin-top: 2px;
+  cursor: pointer; flex-shrink: 0; accent-color: var(--accent);
+}
+.aceite-row label { font-size: 13px; cursor: pointer; line-height: 1.5; }
+.fontes-wrap { display: flex; flex-wrap: wrap; gap: 5px; }
+.badge {
+  font-size: 11px; background: var(--accent-light); color: var(--accent);
+  border-radius: 20px; padding: 3px 10px; font-weight: 500;
+}
+.apikey-box {
+  background: var(--accent-light); border: 1px solid #c8d9f5;
+  border-radius: var(--radius-sm); padding: 14px 16px; margin-bottom: 14px;
+}
+.apikey-box p { font-size: 12px; color: var(--accent); margin-bottom: 8px; line-height: 1.5; }
+.tabs {
+  display: flex; background: var(--bg); border: 1px solid var(--border);
+  border-radius: var(--radius-sm); padding: 4px; margin-bottom: 16px;
+}
+.tab-btn {
+  flex: 1; padding: 10px; font-family: var(--font); font-size: 13px;
+  font-weight: 600; border: none; background: transparent;
+  border-radius: calc(var(--radius-sm) - 2px); cursor: pointer;
+  color: var(--text-2); transition: background .15s, color .15s;
+}
+.tab-btn.active { background: var(--surface); color: var(--accent); box-shadow: var(--shadow); }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 520px) { .grid-2 { grid-template-columns: 1fr; } }
+label.field-label { display: block; font-size: 12px; color: var(--text-2); margin-bottom: 5px; font-weight: 600; }
+select, input[type=text], input[type=password], textarea {
+  width: 100%; font-family: var(--font); font-size: 13px; color: var(--text);
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm); padding: 9px 12px; outline: none; transition: border-color .15s;
+}
+select:focus, input:focus, textarea:focus { border-color: var(--accent); }
+textarea { resize: vertical; line-height: 1.55; }
+.field-error { border-color: var(--error) !important; }
+.msg-error { font-size: 11px; color: var(--error); margin-top: 4px; display: none; }
+.msg-error.visible { display: block; }
+.field-hint { font-size: 11px; color: var(--text-3); margin-top: 5px; line-height: 1.5; }
+.sugestoes-label { font-size: 12px; font-weight: 600; color: var(--text-2); margin-bottom: 8px; margin-top: 14px; }
+.sugestoes-wrap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 14px; }
+.sugestao-chip {
+  font-size: 12px; background: var(--accent-light); color: var(--accent);
+  border: 1px solid #c8d9f5; border-radius: 20px; padding: 5px 12px;
+  cursor: pointer; font-family: var(--font); transition: background .15s, color .15s;
+}
+.sugestao-chip:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.sugestao-chip.empresa { background: var(--green-light); color: var(--green); border-color: #a7d4bc; }
+.sugestao-chip.empresa:hover { background: var(--green); color: #fff; border-color: var(--green); }
+.btn-primary {
+  width: 100%; padding: 13px; font-size: 15px; font-weight: 700;
+  font-family: var(--font); background: var(--accent); color: #fff;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  transition: background .15s, transform .1s; margin-top: 4px;
+}
+.btn-primary:hover { background: var(--accent-hover); }
+.btn-primary:active { transform: scale(.99); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+.btn-secondary {
+  width: 100%; padding: 11px; font-size: 13px; font-family: var(--font);
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius);
+  cursor: pointer; color: var(--text-2); margin-top: 8px; font-weight: 600; transition: background .15s;
+}
+.btn-secondary:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
+.btn-contato {
+  width: 100%; padding: 14px; font-size: 14px; font-weight: 700;
+  font-family: var(--font); background: var(--green); color: #fff;
+  border: none; border-radius: var(--radius); cursor: pointer;
+  transition: background .15s; margin-top: 6px;
+  display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none;
+}
+.btn-contato:hover { background: var(--green-hover); }
+#loading-post, #loading-duvida {
+  display: none; text-align: center; padding: 2.5rem; color: var(--text-2); font-size: 14px;
+}
+.spinner {
+  width: 28px; height: 28px; border: 3px solid var(--border);
+  border-top-color: var(--accent); border-radius: 50%;
+  animation: spin .8s linear infinite; margin: 0 auto 12px;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.result-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px; margin-bottom: 14px; box-shadow: var(--shadow);
+}
+.result-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+  flex-wrap: wrap; gap: 8px;
+}
+.platform-tag { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; flex-wrap: wrap; }
+.platform-icon {
+  width: 26px; height: 26px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
+}
+.li-icon { background: #0a66c2; }
+.ig-icon { background: linear-gradient(135deg, #833ab4, #fd1d1d, #fcb045); }
+.area-tag { font-size: 11px; background: var(--accent-light); color: var(--accent); padding: 2px 9px; border-radius: 20px; font-weight: 600; }
+.btn-copy {
+  font-family: var(--font); font-size: 12px; padding: 6px 12px;
+  background: var(--bg); border: 1.5px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; color: var(--text-2); transition: background .15s; font-weight: 600; flex-shrink: 0;
+}
+.btn-copy:hover { background: var(--accent-light); color: var(--accent); }
+.result-body { font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; }
+.result-footer { margin-top: 14px; padding-top: 10px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-3); }
+.duvida-result {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px; margin-top: 8px; box-shadow: var(--shadow);
+}
+.duvida-result-header {
+  font-size: 12px; font-weight: 700; color: var(--text-2); text-transform: uppercase;
+  letter-spacing: .05em; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+  margin-bottom: 14px; display: flex; align-items: center; gap: 6px;
+}
+.duvida-result-body { font-size: 14px; line-height: 1.85; color: var(--text); white-space: pre-wrap; }
+.duvida-cta {
+  margin-top: 18px; padding: 16px; background: var(--green-light);
+  border: 1px solid #a7d4bc; border-radius: var(--radius-sm);
+  font-size: 13px; color: var(--green); line-height: 1.6;
+}
+.duvida-cta strong { display: block; margin-bottom: 6px; font-size: 14px; }
+.msg-api-error {
+  background: var(--error-bg); border: 1px solid var(--error-border);
+  border-radius: var(--radius-sm); padding: 14px 16px;
+  font-size: 13px; color: var(--error); margin-top: 8px; line-height: 1.6;
+}
+footer {
+  text-align: center; font-size: 11px; color: var(--text-3);
+  padding: 22px 20px; border-top: 1px solid var(--border); background: var(--surface);
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">TI</div>
+  <div>
+    <h1>Infraestrutura de TI — Conteúdo &amp; Consultoria</h1>
+    <p>Posts profissionais e orientações para empresas e profissionais</p>
+  </div>
+  <div class="header-spacer"></div>
+  <div class="header-tag">Beta</div>
+</header>
+
+<div id="tela-perfil">
+  <div class="perfil-titulo">
+    <h2>Como posso te ajudar hoje?</h2>
+    <p>Escolha o seu perfil para receber conteúdo e orientações sob medida.</p>
+  </div>
+  <div class="perfil-grid">
+    <div class="perfil-card empresa" onclick="escolherPerfil(&#39;empresa&#39;)">
+      <span class="icon">🏢</span>
+      <h3>Sou Empresa</h3>
+      <p>Quero entender riscos de TI, segurança, compliance e como proteger meu negócio.</p>
+      <span class="tag">Tirar dúvidas · Conteúdo</span>
+    </div>
+    <div class="perfil-card" onclick="escolherPerfil(&#39;profissional&#39;)">
+      <span class="icon">👨‍💻</span>
+      <h3>Sou Profissional de TI</h3>
+      <p>Quero tirar dúvidas técnicas, trocar ideias e criar conteúdo para minha audiência.</p>
+      <span class="tag">Discussão técnica · Posts</span>
+    </div>
+    <div class="perfil-card" onclick="escolherPerfil(&#39;criador&#39;)">
+      <span class="icon">📱</span>
+      <h3>Quero Criar Posts</h3>
+      <p>Gerar conteúdo profissional para LinkedIn e Instagram sobre infraestrutura de TI.</p>
+      <span class="tag">LinkedIn · Instagram</span>
+    </div>
+  </div>
+</div>
+
+<div id="tela-principal" style="display:none;">
+<div class="container">
+
+  <div class="breadcrumb">
+    <a onclick="voltarPerfil()">← Início</a>
+    <span>/</span>
+    <span id="breadcrumb-perfil">—</span>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔑 Chave de API</div>
+    <div class="apikey-box">
+      <p>🔒 A chave fica apenas no seu navegador e nunca é enviada a terceiros. Obtenha gratuitamente em <strong>console.anthropic.com</strong></p>
+      <input type="password" id="apikey-global" placeholder="sk-ant-..." autocomplete="off">
+      <p class="field-hint">Começa com <strong>sk-ant-</strong> — cole aqui antes de usar</p>
+      <p class="msg-error" id="apikey-erro">Informe a chave de API para continuar.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚠ Termo de uso e responsabilidade</div>
+    <div class="termo-box">
+      O conteúdo e as orientações geradas têm fins informativos e são baseados em fontes públicas de referência. O utilizador é inteiramente responsável pela revisão, adequação e uso das informações, incluindo verificação de dados e datas antes de qualquer publicação ou decisão. Este material não substitui consultoria profissional especializada. A operadora desta ferramenta não se responsabiliza por decisões tomadas com base no conteúdo produzido. Conteúdo gerado com auxílio de inteligência artificial.
+    </div>
+    <div class="aceite-row">
+      <input type="checkbox" id="aceite">
+      <label for="aceite">Li e aceito os termos de uso. Sou responsável pelo conteúdo e comprometo-me a rever toda informação antes de usar.</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">📚 Fontes de referência</div>
+    <div class="fontes-wrap">
+      <span class="badge">Gartner</span><span class="badge">IDC</span><span class="badge">Forrester</span>
+      <span class="badge">AWS</span><span class="badge">Microsoft Azure</span><span class="badge">Google Cloud</span>
+      <span class="badge">ISO 27001</span><span class="badge">NIST</span><span class="badge">LGPD</span>
+      <span class="badge">OWASP</span><span class="badge">CIS Controls</span><span class="badge">MITRE ATT&amp;CK</span>
+      <span class="badge">PMI / PMBOK</span><span class="badge">Agile / Scrum</span>
+      <span class="badge">Cisco</span><span class="badge">IEEE</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab-btn active" id="tab-post" onclick="mudarTab(&#39;post&#39;)">✦ Criar Post</button>
+    <button class="tab-btn" id="tab-duvida" onclick="mudarTab(&#39;duvida&#39;)">💬 Tirar Dúvida</button>
+  </div>
+
+  <div id="painel-post">
+    <div class="card">
+      <div class="card-title">⚙ Configurações do post</div>
+      <div class="grid-2" style="margin-bottom:14px;">
+        <div>
+          <label class="field-label">Plataforma</label>
+          <select id="plataforma">
+            <option value="linkedin">LinkedIn</option>
+            <option value="instagram">Instagram</option>
+            <option value="ambos">LinkedIn + Instagram</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Área de TI</label>
+          <select id="area">
+            <option value="infraestrutura">Infraestrutura geral</option>
+            <option value="cloud">Cloud &amp; migração</option>
+            <option value="cyberseguranca">Cibersegurança</option>
+            <option value="redes">Redes &amp; conectividade</option>
+            <option value="gestao">Gestão de projetos TI</option>
+            <option value="compliance">Compliance &amp; LGPD</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Objetivo do post</label>
+          <select id="objetivo">
+            <option value="educar">Educar / awareness</option>
+            <option value="risco">Mostrar riscos (linguagem acessível)</option>
+            <option value="vender">Gerar interesse em consultoria</option>
+            <option value="lead">Captar leads</option>
+            <option value="tendencia">Tendência de mercado atual</option>
+            <option value="case">Case de sucesso</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label">Tom</label>
+          <select id="tom">
+            <option value="acessivel">Acessível para todos</option>
+            <option value="profissional">Profissional e direto</option>
+            <option value="tecnico">Técnico para especialistas</option>
+            <option value="executivo">Executivo (C-level)</option>
+          </select>
+        </div>
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="field-label">Nome do consultor / empresa</label>
+        <input type="text" id="nome-post" placeholder="Ex: João Silva | JR IT Consulting">
+      </div>
+      <div style="margin-bottom:14px;">
+        <label class="field-label">Tema ou assunto do post ★</label>
+        <textarea id="tema" rows="3" placeholder="Ex: riscos de não ter backup, o que é ransomware em linguagem simples..."></textarea>
+        <p class="msg-error" id="tema-erro">Por favor, descreva o tema do post.</p>
+      </div>
+      <div>
+        <label class="field-label">Contexto adicional (opcional)</label>
+        <textarea id="contexto-post" rows="2" placeholder="Ex: empresa de 50 funcionários, setor saúde..."></textarea>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-gerar-post" onclick="gerarPost()" disabled="">
+      🔒 Aceite os termos para continuar
+    </button>
+    <div id="loading-post"><div class="spinner"></div>Gerando conteúdo profissional...</div>
+    <div id="resultado-post"></div>
+  </div>
+
+  <div id="painel-duvida" style="display:none;">
+    <div class="card">
+      <div class="card-title">💬 Envie sua dúvida</div>
+      <div class="sugestoes-label">💡 Perguntas frequentes — clique para usar:</div>
+      <div class="sugestoes-wrap" id="sugestoes-chips"></div>
+      <div style="margin-bottom:14px;">
+        <label class="field-label">Sua dúvida ★</label>
+        <textarea id="duvida-texto" rows="4" placeholder="Digite sua dúvida aqui..."></textarea>
+        <p class="msg-error" id="duvida-erro">Por favor, escreva sua dúvida antes de continuar.</p>
+      </div>
+      <div>
+        <label class="field-label">Área de interesse</label>
+        <select id="area-duvida">
+          <option value="geral">Geral — não sei ao certo</option>
+          <option value="cyberseguranca">Cibersegurança e proteção</option>
+          <option value="cloud">Cloud e armazenamento</option>
+          <option value="redes">Redes e conectividade</option>
+          <option value="compliance">LGPD e compliance</option>
+          <option value="infraestrutura">Infraestrutura geral</option>
+          <option value="gestao">Gestão de TI e projetos</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn-primary" id="btn-duvida" onclick="tirarDuvida()" disabled="">
+      🔒 Aceite os termos para continuar
+    </button>
+    <div id="loading-duvida"><div class="spinner"></div>Preparando resposta especializada...</div>
+    <div id="resultado-duvida"></div>
+  </div>
+
+</div>
+</div>
+
+<footer>
+  Infraestrutura de TI — Conteúdo &amp; Consultoria · Gerado com auxílio de inteligência artificial · Revise sempre antes de publicar
+</footer>
+
+<script>
+let perfilAtual = null;
+let tabAtual = 'post';
+
+const fontesPorArea = {
+  infraestrutura: 'Gartner, IDC, Forrester, IEEE, Cisco, Microsoft, AWS, Google Cloud',
+  cloud:          'AWS Well-Architected Framework, Microsoft Azure, Google Cloud, Gartner Magic Quadrant for Cloud',
+  cyberseguranca: 'NIST Cybersecurity Framework, ISO 27001, OWASP Top 10, CIS Controls, MITRE ATT&CK, LGPD',
+  redes:          'Cisco, IEEE 802.x standards, IETF RFCs, Gartner Network Infrastructure',
+  gestao:         'PMI PMBOK 7ª edição, Scrum.org, Agile Manifesto, Forrester, Gartner PPM',
+  compliance:     'LGPD (Lei 13.709/2018), ISO 27001, NIST SP 800-53, GDPR, CIS Controls',
+  geral:          'NIST, ISO 27001, Gartner, IDC, Cisco, LGPD, OWASP'
+};
+const areaNomes = {
+  infraestrutura: 'Infraestrutura de TI', cloud: 'Cloud & Migração',
+  cyberseguranca: 'Cibersegurança', redes: 'Redes & Conectividade',
+  gestao: 'Gestão de Projetos TI', compliance: 'Compliance & LGPD', geral: 'TI Geral'
+};
+const tomMap = {
+  acessivel:    'conversacional e humano, como se fosse uma conversa entre amigos — sem jargões, com analogias do dia a dia',
+  profissional: 'direto e confiante, como um especialista que fala com quem toma decisões — sem ser robótico',
+  tecnico:      'preciso e entre pares, como um profissional sénior partilhando experiência real com colegas',
+  executivo:    'estratégico e focado em impacto de negócio, como um consultor a falar com um CEO'
+};
+const objetivoMap = {
+  educar:    'educar de forma envolvente, usando exemplos reais e concretos — sem parecer aula ou manual',
+  risco:     'mostrar os riscos reais de forma que provoque reflexão — não medo, mas urgência de agir',
+  vender:    'despertar interesse genuíno nos serviços de consultoria através de um problema real e bem descrito',
+  lead:      'criar desejo de conversa, terminando com um convite natural para um diagnóstico gratuito',
+  tendencia: 'apresentar uma tendência real de mercado de forma opinativa e com perspectiva própria',
+  case:      'contar uma história de transformação com início, meio e resultado concreto'
+};
+const plataformaInstrucao = {
+  linkedin:  'Crie 1 post para LinkedIn: 250–400 palavras, primeira linha que prende sem ser clickbait, parágrafos de 1-2 linhas, voz ativa, 1 pergunta ao leitor, call-to-action natural no final, 4-5 hashtags relevantes.',
+  instagram: 'Crie 1 post para Instagram: 120–200 palavras, começa com impacto, emojis usados com critério (não em excesso), quebras de linha para respirar, call-to-action curto, 8-10 hashtags.',
+  ambos:     'Crie 2 posts. Separe com "=== LINKEDIN ===" e "=== INSTAGRAM ===". LinkedIn: 250–350 palavras, tom mais reflexivo, 5 hashtags. Instagram: 120–180 palavras, mais direto e visual, 10 hashtags.'
+};
+const sugestoesPorPerfil = {
+  empresa: [
+    'Minha empresa precisa de firewall?','O que é ransomware e como me proteger?',
+    'Sou obrigado a seguir a LGPD?','Como saber se minha empresa foi hackeada?',
+    'Vale a pena ir para a nuvem?','O que é backup e por que é crítico?',
+    'Quanto custa um ataque cibernético para PME?','Minha internet corporativa é segura?'
+  ],
+  profissional: [
+    'Quais as tendências de infra para 2025?','Como implantar Zero Trust em ambientes híbridos?',
+    'NIST vs ISO 27001 — qual escolher?','Melhores práticas de migração para AWS?',
+    'Como justificar investimento em segurança para o board?','SD-WAN vs MPLS — quando usar cada um?',
+    'Gestão de riscos em projetos de TI','DevSecOps na prática'
+  ],
+  criador: [
+    'Riscos de não ter backup atualizado','O que é firewall em linguagem simples',
+    'Por que PMEs são alvo de hackers','Cloud computing: mitos e verdades',
+    'LGPD: o que minha empresa precisa fazer','Zero Trust: o futuro da segurança',
+    'Infraestrutura híbrida: tendências 2025'
+  ]
+};
+const perfilNomes = { empresa: '🏢 Empresa', profissional: '👨‍💻 Profissional de TI', criador: '📱 Criar Posts' };
+
+function escolherPerfil(perfil) {
+  perfilAtual = perfil;
+  document.getElementById('tela-perfil').style.display = 'none';
+  document.getElementById('tela-principal').style.display = 'block';
+  document.getElementById('breadcrumb-perfil').textContent = perfilNomes[perfil];
+  if (perfil === 'criador') {
+    document.getElementById('tab-duvida').style.display = 'none';
+    mudarTab('post');
+  } else {
+    document.getElementById('tab-duvida').style.display = '';
+    mudarTab(perfil === 'empresa' ? 'duvida' : 'post');
+  }
+  const chips = sugestoesPorPerfil[perfil] || sugestoesPorPerfil.criador;
+  document.getElementById('sugestoes-chips').innerHTML = chips.map(q =>
+    `<button class="sugestao-chip ${perfil==='empresa'?'empresa':''}" onclick="usarSugestao(this)">${q}</button>`
+  ).join('');
+  document.getElementById('duvida-texto').placeholder = perfil === 'empresa'
+    ? 'Ex: Minha empresa precisa de firewall? O que é LGPD?'
+    : 'Ex: Como implementar Zero Trust? SD-WAN vs MPLS?';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function voltarPerfil() {
+  document.getElementById('tela-perfil').style.display = 'flex';
+  document.getElementById('tela-principal').style.display = 'none';
+  document.getElementById('resultado-post').innerHTML = '';
+  document.getElementById('resultado-duvida').innerHTML = '';
+  document.getElementById('aceite').checked = false;
+  atualizarBotoes(false);
+}
+
+function mudarTab(tab) {
+  tabAtual = tab;
+  document.getElementById('painel-post').style.display   = tab==='post'   ? 'block' : 'none';
+  document.getElementById('painel-duvida').style.display = tab==='duvida' ? 'block' : 'none';
+  document.getElementById('tab-post').classList.toggle('active',   tab==='post');
+  document.getElementById('tab-duvida').classList.toggle('active', tab==='duvida');
+}
+
+document.getElementById('aceite').addEventListener('change', function() {
+  atualizarBotoes(this.checked);
+});
+
+function atualizarBotoes(aceito) {
+  const b1 = document.getElementById('btn-gerar-post');
+  const b2 = document.getElementById('btn-duvida');
+  b1.disabled = !aceito; b2.disabled = !aceito;
+  b1.textContent = aceito ? '✦ Gerar post profissional'  : '🔒 Aceite os termos para continuar';
+  b2.textContent = aceito ? '💬 Enviar minha dúvida'     : '🔒 Aceite os termos para continuar';
+}
+
+function usarSugestao(btn) {
+  document.getElementById('duvida-texto').value = btn.textContent;
+  document.querySelectorAll('.sugestao-chip').forEach(c => c.style.fontWeight='');
+  btn.style.fontWeight = '700';
+  if (tabAtual !== 'duvida') mudarTab('duvida');
+  document.getElementById('duvida-texto').focus();
+}
+
+function showError(id, mid) { document.getElementById(id)?.classList.add('field-error'); document.getElementById(mid)?.classList.add('visible'); }
+function clearError(id, mid) { document.getElementById(id)?.classList.remove('field-error'); document.getElementById(mid)?.classList.remove('visible'); }
+function escapeHtml(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function getApiKey() { return document.getElementById('apikey-global').value.trim(); }
+
+async function chamarAPI(prompt, maxTokens) {
+  const apikey = getApiKey();
+  if (!apikey) { showError('apikey-global', 'apikey-erro'); throw new Error('Chave de API não informada.'); }
+  clearError('apikey-global', 'apikey-erro');
+
+  const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type':      'application/json',
+      'x-api-key':         apikey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model:      'claude-sonnet-4-20250514',
+      max_tokens: maxTokens || 2500,
+      messages:   [{ role: 'user', content: prompt }]
+    })
+  });
+
+  if (!resp.ok) {
+    const err = await resp.json().catch(() => ({}));
+    throw new Error(err?.error?.message || `Erro HTTP ${resp.status}`);
+  }
+  const data = await resp.json();
+  return data.content.map(i => i.text || '').join('\n').trim();
+}
+
+async function gerarPost() {
+  clearError('tema','tema-erro');
+  const tema = document.getElementById('tema').value.trim();
+  if (!tema) { showError('tema','tema-erro'); return; }
+
+  const plataforma = document.getElementById('plataforma').value;
+  const area       = document.getElementById('area').value;
+  const objetivo   = document.getElementById('objetivo').value;
+  const tom        = document.getElementById('tom').value;
+  const nome       = document.getElementById('nome-post').value.trim();
+  const contexto   = document.getElementById('contexto-post').value.trim();
+  const fontes     = fontesPorArea[area];
+
+  const btn = document.getElementById('btn-gerar-post');
+  btn.disabled = true; btn.textContent = 'Gerando...';
+  document.getElementById('loading-post').style.display = 'block';
+  document.getElementById('resultado-post').innerHTML = '';
+
+  const prompt = `Você é um ghostwriter especialista em conteúdo para consultores sénior de TI e infraestrutura.
+
+Contexto do autor:
+${nome ? `Nome/empresa: ${nome}` : 'Consultor de TI Sénior com mais de 20 anos de experiência em infraestrutura'}
+Área: ${areaNomes[area]}
+Tema: ${tema}
+${contexto ? `Contexto extra: ${contexto}` : ''}
+
+Objetivo do post: ${objetivoMap[objetivo]}
+Tom e voz: ${tomMap[tom]}
+Fontes de referência (cite naturalmente quando relevante, nunca invente dados): ${fontes}
+
+REGRAS CRÍTICAS para soar humano e não parecer IA:
+- Começa com uma observação concreta, pergunta ou situação real — nunca com "No mundo atual" ou "Em um cenário cada vez mais"
+- Usa frases curtas. Varia o ritmo. Uma frase de impacto. Depois uma explicação. Depois uma pergunta.
+- Escreve na primeira pessoa quando fizer sentido — como alguém partilhando experiência real
+- Evita palavras tipicamente IA: "crucial", "fundamental", "robusto", "abrangente", "no cenário atual", "é importante ressaltar"
+- Usa linguagem de quem viveu o problema, não de quem leu sobre ele
+- Uma ideia central forte — não uma lista de tópicos genéricos
+- ${plataformaInstrucao[plataforma]}
+
+Retorne APENAS o conteúdo do post, sem explicações, sem introdução.`;
+
+  try {
+    const texto = await chamarAPI(prompt, 2500);
+    document.getElementById('loading-post').style.display = 'none';
+    const partes = plataforma === 'ambos' ? parseDoisPosts(texto) : [{
+      titulo: plataforma==='linkedin' ? 'LinkedIn' : 'Instagram', tipo: plataforma, conteudo: texto
+    }];
+    document.getElementById('resultado-post').innerHTML =
+      partes.map(p => `
+        <div class="result-card">
+          <div class="result-header">
+            <div class="platform-tag">
+              <div class="platform-icon ${p.tipo==='linkedin'?'li-icon':'ig-icon'}">${p.tipo==='linkedin'?'in':'ig'}</div>
+              ${p.titulo} <span class="area-tag">${areaNomes[area]}</span>
+            </div>
+            <button class="btn-copy" onclick="copiar(this)" data-texto="${encodeURIComponent(p.conteudo)}">Copiar</button>
+          </div>
+          <div class="result-body">${escapeHtml(p.conteudo)}</div>
+          <div class="result-footer">Fontes: ${fontes} · Gerado com auxílio de IA · Revise antes de publicar.</div>
+        </div>`).join('')
+      + `<button class="btn-secondary" onclick="novaVersao()">↺ Gerar nova versão</button>`;
+  } catch(e) {
+    document.getElementById('loading-post').style.display = 'none';
+    document.getElementById('resultado-post').innerHTML =
+      `<div class="msg-api-error">⚠ Erro: ${escapeHtml(e.message||'Tente novamente.')}</div>`;
+  }
+  btn.disabled = false; btn.textContent = '✦ Gerar post profissional';
+}
+
+async function tirarDuvida() {
+  clearError('duvida-texto','duvida-erro');
+  const duvida = document.getElementById('duvida-texto').value.trim();
+  if (!duvida) { showError('duvida-texto','duvida-erro'); return; }
+
+  const areaDuvida = document.getElementById('area-duvida').value;
+  const fontes     = fontesPorArea[areaDuvida] || fontesPorArea.geral;
+  const isEmpresa  = perfilAtual === 'empresa';
+
+  const btn = document.getElementById('btn-duvida');
+  btn.disabled = true; btn.textContent = 'Consultando...';
+  document.getElementById('loading-duvida').style.display = 'block';
+  document.getElementById('resultado-duvida').innerHTML = '';
+
+  const prompt = `Você é consultor sénior de infraestrutura de TI com mais de 20 anos de experiência real em campo.
+
+Respondendo a: ${isEmpresa ? 'dono ou gestor de empresa sem perfil técnico' : 'profissional de TI experiente'}
+Dúvida: ${duvida}
+Área: ${areaNomes[areaDuvida]}
+Fontes de referência: ${fontes}
+
+${isEmpresa ? `Tom e abordagem:
+- Fala como um consultor de confiança, não como um manual técnico
+- Usa analogias do dia a dia para explicar conceitos
+- Explica o problema real, o risco concreto e o que fazer de forma prática
+- Menciona consequências reais (prejuízo financeiro, multa, interrupção do negócio)
+- Termina com sugestão de próximo passo concreto
+- Máximo 4 parágrafos curtos` :
+`Tom e abordagem:
+- Fala como um colega sénior partilhando experiência real
+- Cita frameworks e padrões quando relevante mas sem ser académico
+- Apresenta perspectivas diferentes e trade-offs reais
+- Menciona casos práticos ou armadilhas comuns
+- Máximo 4 parágrafos diretos`}
+
+Não uses bullet points. Escreve em prosa natural. Sem introdução do tipo "Ótima pergunta!".`;
+
+  try {
+    const texto = await chamarAPI(prompt, 1500);
+    document.getElementById('loading-duvida').style.display = 'none';
+    document.getElementById('resultado-duvida').innerHTML = `
+      <div class="duvida-result">
+        <div class="duvida-result-header">🎯 Resposta do Consultor · ${areaNomes[areaDuvida]}</div>
+        <div class="duvida-result-body">${escapeHtml(texto)}</div>
+        ${isEmpresa ? `
+        <div class="duvida-cta">
+          <strong>🤝 Precisa de uma avaliação personalizada?</strong>
+          Cada empresa tem uma infraestrutura diferente. Um diagnóstico pode identificar vulnerabilidades e traçar um plano de ação sob medida.
+        </div>
+        <a class="btn-contato" href="https://wa.me/351SEUNUMERO?text=Olá!%20Gostaria%20de%20um%20diagnóstico%20gratuito%20de%20TI" target="_blank">
+          📩 Falar com um especialista
+        </a>` : ''}
+        <button class="btn-secondary" onclick="novaDuvida()">↺ Fazer outra pergunta</button>
+      </div>
+      <div class="result-footer" style="margin-top:8px;">
+        Fontes: ${fontes} · Gerado com auxílio de IA · Não substitui consultoria especializada.
+      </div>`;
+  } catch(e) {
+    document.getElementById('loading-duvida').style.display = 'none';
+    document.getElementById('resultado-duvida').innerHTML =
+      `<div class="msg-api-error">⚠ Erro: ${escapeHtml(e.message||'Tente novamente.')}</div>`;
+  }
+  btn.disabled = false; btn.textContent = '💬 Enviar minha dúvida';
+}
+
+function parseDoisPosts(texto) {
+  const partes = texto.split(/===\s*(LINKEDIN|INSTAGRAM)\s*===/i);
+  if (partes.length >= 5) return [
+    { titulo: 'LinkedIn',  tipo: 'linkedin',  conteudo: partes[2].trim() },
+    { titulo: 'Instagram', tipo: 'instagram', conteudo: partes[4].trim() }
+  ];
+  return [{ titulo: 'Conteúdo gerado', tipo: 'linkedin', conteudo: texto }];
+}
+
+function copiar(btn) {
+  navigator.clipboard.writeText(decodeURIComponent(btn.dataset.texto)).then(() => {
+    btn.textContent = '✓ Copiado!';
+    setTimeout(() => { btn.textContent = 'Copiar'; }, 2000);
+  });
+}
+
+function novaVersao() { document.getElementById('resultado-post').innerHTML = ''; gerarPost(); }
+function novaDuvida() {
+  document.getElementById('resultado-duvida').innerHTML = '';
+  document.getElementById('duvida-texto').value = '';
+  document.querySelectorAll('.sugestao-chip').forEach(c => c.style.fontWeight='');
+  document.getElementById('duvida-texto').focus();
+}
+</script>
+
+
+</body></html>
